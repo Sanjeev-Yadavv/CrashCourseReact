@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/reactBasis/react1.css">
+    <title>JSX and Babel</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // Your JSX code here
+
+      const App = () =>{
+
+        return <>
+        <div className="main">
+            <img src="https://plus.unsplash.com/premium_photo-1677775978565-8ab75fb77f33?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""/>
+            <h1>SUBSCRIBE</h1>
+            <p>Subscribe to our newsletter and stay upto date!</p>
+            <div className="section">
+                <input type="text" placeholder="sanjeev@.net"/>
+                <button>Subscribe</button>
+            </div>
+        </div>
+        </>
+      }
+
+      let root = ReactDOM.createRoot(document.getElementById("root"))
+      root.render(<App/>)
+    </script>
+  </body>
+</html>

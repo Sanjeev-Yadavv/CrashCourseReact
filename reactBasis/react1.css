@@ -1,0 +1,45 @@
+
+.main{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+}
+.main img {
+    height: 200px;
+}
+
+.main h1{
+    font-size: 60px;
+    font-weight: 900;
+}
+
+.main p{
+    font-size: 30px;
+}
+
+.section{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.section input{
+    width: 300px;
+    height: 40px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.section button{
+    width: 130px;
+    height: 40px;
+    font-size: 15px;
+    border-radius: 10px;
+    color: aliceblue;
+    background-color: blue;
+    border: none;
+}
