@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/reactBasis/react2.css">
+    <title>JSX and Babel</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+      // Your JSX code here
+
+
+      const App = () =>{
+
+        return <>
+        <div className="main">
+            <div className="head">
+                <img src="https://images.unsplash.com/photo-1444881421460-d838c3b98f95?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fHdhdGNofGVufDB8fDB8fHww" alt=""/>
+                <h1>Automatic Watch</h1>
+                <p id="price">$350.00 USD</p>
+                <p className="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni at officia architecto aliquid nihil. Quidem ipsam perferendis nulla nihil molestias.</p>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Distinctio, nisi. Fugit eligendi animi, ad doloribus eaque, adipisci dolores sint numquam quibusdam quia recusandae nobis similique praesentium labore dolorum deserunt explicabo, sequi eius impedit. Laboriosam harum praesentium magnam nostrum temporibus eum.</p>
+
+            </div>
+           <h2>Features</h2>
+            <div className="body">
+                <div>
+                    <p>Chronograph</p>
+                    <p>Master Chronometer Certified</p>
+                    <p>Tachymeter</p>
+                </div>
+                <div>
+                    <p>Anti-magnetic</p>
+                    <p>Chronometer</p>
+                    <p>Small seconds</p>
+                </div>
+            </div>
+            <h2>Product Detail</h2>
+            <div className="footer">
+            <p><span>Between lugs: </span> 20mm</p>
+            <p><span>Bracelet:</span> leather strap</p>
+            <p><span>Case:</span> Steel</p>
+            <p><span>Case diameter:</span> 42 mm</p>
+            <p><span>Dial color:</span> Black</p>
+            <p><span>Crystal:</span> Domed, scratch-resistant sapphire crystal with anti-reflective treatment inside</p>
+            <p><span>Water resistance:</span> 5 bar (50 metres/167feet)</p>
+            </div>
+            <div className="cart">
+                ADD TO CART
+            </div>
+            <div className="bottom">
+                <img src="https://www.svgrepo.com/show/308235/delivery-truck-cargo-logistics.svg" alt=""/>
+                <p className="description">2-3 business days delivery</p>
+            </div>
+        </div>
+               </>
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"))
+      root.render(<App/>)
+    </script>
+  </body>
+</html>
