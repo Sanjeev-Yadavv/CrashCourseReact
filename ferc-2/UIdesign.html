@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Components in React</title>
+
+  <style>
+
+    .main h1{
+       text-align: center;
+       margin-bottom: 50px;
+    }
+
+    span{
+        color: rgb(24, 182, 24);
+        text-decoration: underline;
+    }
+    .flex{
+        display: flex;
+        gap: 50px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .number{
+        background-color: rgb(147, 239, 147);
+        height: 40px;
+        width: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        color: green;
+        font-weight: 700;
+        margin: auto;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Write your code here
+
+    const Component1 = () =>{
+
+
+        return <div>
+            <div className="number">01</div>
+            <h3>Find your template</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error et veniam dolore sint odio dicta sit doloremque voluptate! Adipisci harum laboriosam distinctio consectetur maxime nesciunt eos nisi pariatur ratione unde.</p>
+               </div>
+    }
+
+    const Component2 = () =>{
+
+
+return <div>
+    <div className="number">02</div>
+    <h3>Find your template</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error et veniam dolore sint odio dicta sit doloremque voluptate! Adipisci harum laboriosam distinctio consectetur maxime nesciunt eos nisi pariatur ratione unde.</p>
+       </div>
+}
+const Component3 = () =>{
+
+
+return <div>
+    <div className="number">03</div>
+    <h3>Find your template</h3>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error et veniam dolore sint odio dicta sit doloremque voluptate! Adipisci harum laboriosam distinctio consectetur maxime nesciunt eos nisi pariatur ratione unde.</p>
+       </div>
+}
+
+    const App = () =>{
+
+        return <div className="main">
+            <h1>Getting Started in <span>3 easy steps</span></h1>
+           <div className="flex">
+            <Component1/>
+            <Component2/>
+            <Component3/>
+            </div>
+               </div>
+    }
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(<App/>)
+  </script>
+</body>
+</html>
