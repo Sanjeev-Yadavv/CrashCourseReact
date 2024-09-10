@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    const App = () =>{
+
+      const [answers, setAnswers] = React.useState({});
+      const [score, setScore] = React.useState(null)
+
+      const questions = [
+        {
+          question: "1. What is the capital of india",
+          options: ["delhi", "kolkata", "hyderabad"],
+          answer: "delhi"
+        },
+        {
+          question: "2. What is the currency of japan",
+          options: ["dollar", "dinar", "yen"],
+          answer: "yen"
+        },
+        {
+          question: "3. What is the national sport of india",
+          options: ["basketball", "kabaddi", "cricket"],
+          answer: "kabaddi"
+        }
+      ]
+
+      const handleSelect = (questionIndex, option) => {
+        setAnswers((prevAnswer)=>({
+          ...prevAnswer,
+          [questionIndex]: option,
+        }))
+        console.log(answers)
+      }
+
+      const handleClick = () => {
+        let currentScore = 0;
+        questions.forEach((el,index)=>{
+          if(answers[index]===el.answer){
+            currentScore+=1;
+          }
+        })
+        setScore(currentScore)
+        setAnswers({})
+      }
+
+      return (
+        <>
+       <div>
+       {questions.map((el,i)=>(
+        <div key={i}>
+        <p> {el.question}</p>  
+        {
+          el.options.map((option, optionIndex)=>(
+            <label 
+            key={optionIndex}
+            style={{display: "block", margin: "5px"}}
+            for=""
+           
+            >
+          <input
+           type="radio"
+           name={i}
+            value={option}
+            checked={answers[i]===option}
+            onChange={()=> {handleSelect(i,option)}}
+           
+           />    
+            {option}
+            </label>
+          ))
+        }
+        </div>
+       ))
+
+       } 
+
+       <button onClick={handleClick}>Check your Score</button>
+
+       {score!==null && <h2>your score : {score}/ {questions.length}</h2>}
+       </div>
+        </>
+      )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+  </script>
+</html>
