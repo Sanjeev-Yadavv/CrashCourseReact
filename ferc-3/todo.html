@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+    <style>
+
+        .main{
+            width: 600px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+
+        }
+
+        span:hover {
+            cursor: pointer;
+        }
+
+        .filter-buttons {
+            margin-top: 20px;
+        }
+
+        .filter-buttons button {
+            margin-right: 5px;
+            padding: 5px 10px;
+        }
+
+        .task-item {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+<script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    // Your  code will go here
+
+    const App = () => {
+
+        const [tasks, setTask] = React.useState([]);
+        const [inputTask, setInputTask] = React.useState("");
+        const [filter, setFilter] = React.useState("All");
+
+        const addTask = (e) => {
+            e.preventDefault()
+
+            if (inputTask.trim()) {
+                setTask([...tasks, { text: inputTask, completed: false }])
+                setInputTask("")
+            }
+            console.log(tasks)
+        }
+
+        const filteredTask = () => {
+            if (filter === 'Active') return tasks.filter((el) => !el.completed)
+            if (filter === 'Completed') return tasks.filter((el) => el.completed)
+            return tasks
+        }
+
+        const toggleTask = (index) => {
+            const updatedTask = tasks.map((task, i) => (
+                i === index ? { ...task, completed: !task.completed } : task
+
+            ))
+            setTask(updatedTask)
+
+            console.log(tasks)
+
+        }
+
+        const handleRemove = (index) =>{
+                       const remainTask = tasks.filter((el,index1)=>{
+
+                       return  index1  !== index
+                       })
+                       setTask(remainTask)
+        }
+
+
+
+        return (
+            <>
+                <div className="main">
+
+                    <h1>To Do List</h1>
+
+                    <form onSubmit={addTask}>
+
+                        <input
+                            style={{ display: "block", marginBottom: "30px" }}
+                            type="text"
+                            placeholder="enter your task"
+                            value={inputTask}
+                            onChange={(e) => setInputTask(e.target.value)}
+                        />
+
+                        <input
+                            type="submit"
+                            style={{ display: "block", marginTop: "30px" }}
+                            value="Add Task"
+                        />
+
+                    </form>
+
+                    <div className="filter-buttons">
+                        <button onClick={() => setFilter('All')}>All</button>
+                        <button onClick={() => setFilter('Active')}>Active</button>
+                        <button onClick={() => setFilter('Completed')}>completed</button>
+                    </div>
+
+                    <p>Toggle the given task to change its status</p>
+                    <ul>
+
+                        {
+                            filteredTask().map((el, index) => (
+                                <li key={index} className="task-item" >
+
+                                    <span
+                                        onClick={() => toggleTask(index)}
+                                        className={el.completed ? 'completed' : ''}
+                                    >
+                                        {el.text}
+                                    </span>
+
+                                    <button onClick={() => handleRemove(index)}>Remove</button>
+                                </li>
+                            ))
+                        }
+                    </ul>
+
+                </div>
+            </>
+        )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+</script>
+
+</html>
