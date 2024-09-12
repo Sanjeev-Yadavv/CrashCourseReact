@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    const App = () => {
+
+        const [newTask, setNewTask] = React.useState("")
+        const [task, setTask] = React.useState([])
+
+        const handleAddTask = (e) => {
+            e.preventDefault()
+            if(newTask.trim()==='') return;
+            setTask([...task,{text: newTask, completed: false}]);
+            setNewTask('')
+
+            console.log(task)
+        }
+
+        const handleToggle = (index) =>{
+            const updatedTask = task.map((el,i)=>(
+                i===index? {...el, completed: !el.completed}: el
+            ))
+            setTask(updatedTask);
+
+        }
+
+        const handleDelete = (index)=>{
+               const remainingData = task.filter((el, i)=>(
+                 i !== index
+               ))
+
+               setTask(remainingData)
+        }
+
+        return (
+            <div>
+                
+                <h2>To Do List</h2>
+                <form onSubmit={handleAddTask}>
+                <input
+                 type="text"
+                 placeholder="add your task here"
+                 value={newTask}
+                 onChange={(e)=> setNewTask(e.target.value)}
+                 />  
+                 
+                 <input 
+                 type="submit"
+                 value="submit"
+                 />
+                </form>
+
+
+                <ul>
+                   {
+                    task.map((el, index)=>(
+                        <li key={index} style={{textDecoration: el.completed? 'line-through': 'none'}}>
+                        <input 
+                        type="checkbox"
+                        checked={el.completed}
+                        onChange={()=> handleToggle(index)}
+                        />  
+                        {el.text}  
+
+                        <button onClick={()=>{handleDelete(index)}}>Delete</button>
+                        </li>
+                    ))
+                   } 
+                </ul>
+            
+            </div>
+        )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+  </script>
+</html>
