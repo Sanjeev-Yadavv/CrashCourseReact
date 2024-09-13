@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // Your  code will go here
+
+    let users = [
+    { id: 1, name: 'Alice Johnson', age: 25 },
+      { id: 2, name: 'Bob Smith', age: 30 },
+      { id: 3, name: 'Charlie Brown', age: 28 },
+      { id: 4, name: 'David Williams', age: 35 },
+      { id: 5, name: 'Eva Green', age: 22 }
+    ]
+
+    const UserProfile = ({name, age}) => {
+
+        return <div>
+            
+            <h2> Name: {name}</h2>
+        <p>Age: {age}</p>
+            </div>
+    }
+
+    const App = () =>{
+
+        const [searchInput, setSearchInput] = React.useState("")
+        const [finalInput, setFinalInput] = React.useState(users)
+
+        const handleOnchange = (e) =>{
+             setSearchInput(e.target.value)
+             console.log(searchInput)
+        }
+
+        React.useEffect(()=>{
+        const searchedUser = users.filter((ele,i)=>{
+          return  ele.name.toLowerCase().includes(searchInput.toLowerCase())
+        })
+
+        setFinalInput(searchedUser)
+        },[searchInput])
+
+        return <div>
+            <input
+             type="text"
+             placeholder="search here for user"
+             value={searchInput}
+             onChange={handleOnchange}
+            />
+
+            <div>
+            {
+                finalInput.map(user=>(
+                    <UserProfile name={user.name} age={user.age}/>
+                ))
+            }    
+            </div>
+               </div>
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root")).render(<App/>)
+  </script>
+</html>
