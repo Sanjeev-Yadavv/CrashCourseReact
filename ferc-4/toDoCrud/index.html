@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template</title>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+<script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script type="text/babel">
+
+    const App = () => {
+
+        let url = "http://localhost:3000/todos"
+
+        const [task, setTask] = React.useState([])
+        const [newTask, setNewTask] = React.useState('')
+        const [newAssignee, setNewAssignee] = React.useState('')
+        const [isCompleted, setIsCompleted] = React.useState(false)
+        const [editTaskId, setEditTaskId] = React.useState(null)
+        const [filterAssignee, setFilterAssignee] = React.useState('')
+
+
+        const handleChange =(e)=>{
+             setNewTask(e.target.value)
+            //  console.log(newTask)
+        }
+
+        const handleSubmit =(e)=>{
+            e.preventDefault()
+            // 
+            let obj = {
+                title: newTask,
+                isCompleted,
+                assignee: newAssignee
+            }
+
+            if(editTaskId !== null){
+               axios.put(`${url}/${editTaskId}`,obj)
+               .then(()=>{
+                alert("task updated successfully")
+                setEditTaskId(null)
+                fetchTask();
+               })
+               
+
+            }else{
+                axios.post(url,obj)
+            .then(()=>{
+               alert("data added successfully")
+
+               fetchTask()
+            })
+            }
+            setNewTask("")
+            setNewAssignee('')
+            setIsCompleted(false)
+           
+        }
+
+        const deleteTask = (id)=>{
+           axios.delete(`${url}/${id}`)
+           .then(()=>{
+            alert("task deleted successfully")
+            fetchTask()
+           })
+        }
+
+        const editTask = (task)=>{
+                 setEditTaskId(task.id)
+                 setNewAssignee(task.assignee)
+                 setIsCompleted(task.isCompleted)
+                 setNewTask(task.title)
+        }
+
+        const showIncompleteTask = ()=>{
+              axios.get(url)
+              .then((res)=>{
+                const incompleteTask = res.data.filter((el, i)=>{
+                    return el.isCompleted==false
+                })
+                setTask(incompleteTask)
+              })
+                
+        }
+
+        const filterByAssignee =()=>{
+             axios.get(url)
+             .then((res)=>{
+                const filteredAssignee = res.data.filter((el,index)=>{
+                    return el.assignee.toLowerCase().includes(filterAssignee.toLowerCase())
+                })
+                setTask(filteredAssignee)
+             })
+
+             setFilterAssignee('')
+        }
+
+        const fetchTask = () =>{
+            axios.get(url)
+            .then((res)=>{
+                setTask(res.data)
+            })
+        }
+
+        React.useEffect(()=>{
+         fetchTask()
+         
+        },[])
+
+        return <div>
+<h1>Task Management</h1>
+            <form onSubmit={handleSubmit}>
+                <label htmlFor="">title: </label>
+                <input
+                    type="text"
+                    placeholder="enter your title here"
+                    value={newTask}
+                    onChange={handleChange}
+                /> <br />
+                <label htmlFor="">isCompleted: </label>
+                <input 
+                checked={isCompleted}
+                type="checkbox"
+                onChange={()=> setIsCompleted(!isCompleted)} 
+                />
+                <br />
+                <label htmlFor="">Assignee: </label>
+                <input
+                    type="text"
+                    placeholder="enter your assignee here"
+                    value={newAssignee}
+                    onChange={(e)=>setNewAssignee(e.target.value)}
+                />
+                <br />
+               <button type="submit">{editTaskId !== null? "update task" : 'add task'}</button>
+            </form>
+
+            <hr/>
+          
+            <button onClick={fetchTask}>Show All Task</button>
+            <button onClick={showIncompleteTask}>Show Incomplete Task</button>
+
+            <div>
+            <input type="text"
+            placeholder="filter by assignee"
+            value={filterAssignee}
+            onChange={(e)=> setFilterAssignee(e.target.value)}
+            />
+            
+            <button onClick={filterByAssignee}> Filter</button>
+            </div>
+
+
+            <h2>Task List</h2>
+            <ul>
+            {
+                task.map((task, index)=>(
+                  <li key={index}>
+                <strong>Title: </strong> {task.title} <br/>
+                <strong> Completed: </strong> {task.isCompleted? 'Yes' : 'No'} <br/>
+                <strong> Assignee: </strong> {task.assignee} <br/>
+                <button onClick={()=> editTask(task)}>Edit Task</button>
+                <button onClick={()=> deleteTask(task.id)}>Delete Task</button>
+
+                </li>
+                ))
+            }    
+            </ul>
+        </div>
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"))
+    root.render(<App />)
+</script>
+
+</html>
