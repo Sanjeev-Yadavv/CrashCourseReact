@@ -1,1 +1,13 @@
 
+.navbar{
+    display: flex;
+    justify-content: space-around;
+    font-size: larger;
+}
+.navbar button{
+    border: none;
+    padding: 10px;
+    font-size: larger;
+    border-radius: 10px;
+    background-color: rgb(197, 197, 197);
+}
