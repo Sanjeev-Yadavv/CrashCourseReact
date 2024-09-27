@@ -1,4 +1,4 @@
-import { Box, Image, Text, Button, CircularProgress, Flex, Grid } from '@chakra-ui/react';
+import { Box, Image, Text, Button, CircularProgress, Flex, Grid, HStack } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -7,12 +7,17 @@ const Products = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [page, setPage] = useState(1)
+  const [limit, setLimit] = useState(5)
+  const [pageMode , setPageMode ] = useState(false)
   const navigate = useNavigate();
 
   // Retrieving filters from URL
   let filter = searchParams.get('filter') || 'all';
   let order = searchParams.get('order') || 'all';
   let sort = searchParams.get('sort') || 'all'; // changed 'price' to 'sort' to reflect URL accurately
+  let pageparam = searchParams.get('page')
+  let limitparam = searchParams.get('limit')
 
   useEffect(() => {
     async function fetchData() {
@@ -22,8 +27,8 @@ const Products = () => {
 
         // Adding category filter if not 'all'
         if (filter !== 'all') {
-          query += `category=${filter}&`;
-        }else{
+          query += `filter=${filter}&`;
+        }
              // Adding sort and order filters
         if (sort !== 'all') {
             query += `sort=${sort}&`; // adjust as per API requirements, e.g., sortBy=price
@@ -31,7 +36,10 @@ const Products = () => {
           if (order !== 'all') {
             query += `order=${order}&`; // usually works with sort, e.g., order=asc
           }
-        }
+          if(pageMode){
+            query+= `page=${pageparam}&limit=${limitparam}`
+          }
+        
 
        
 
@@ -47,17 +55,23 @@ const Products = () => {
       }
     }
     fetchData();
-  }, [filter, order, sort]);
+  }, [filter, order, sort, page, limit]);
 
   function handleFilterChange(e) {
     const { name, value } = e.target;
     const currentParams = Object.fromEntries([...searchParams]);
     currentParams[name] = value; // Updating the search params with new filter values
     setSearchParams(currentParams);
+    setPage(1)
   }
 
   function handleClick(id) {
     navigate(`/seeMore?id=${id}`);
+  }
+  function handlePageChange(newPage){
+    setPage(newPage)
+    setSearchParams({page: newPage, limit: limit})
+    setPageMode(true)
   }
 
   if (loading) {
@@ -112,6 +126,7 @@ const Products = () => {
             <Image src={ele.image} alt={ele.title} />
             <Text>Price: {ele.price}</Text>
             <Text>Title: {ele.title}</Text>
+            <Text>Category: {ele.category}</Text>
             <Button
               variant="outline"
               colorScheme="red"
@@ -122,8 +137,27 @@ const Products = () => {
           </Box>
         ))}
       </Grid>
+      <HStack spacing={4} marginTop={4}>
+        <Button
+          onClick={() => handlePageChange(page - 1)}
+          isDisabled={page === 1}
+        >
+          Previous
+        </Button>
+        <Text>Page {page}</Text>
+        <Button
+          onClick={() => handlePageChange(page + 1)}
+          isDisabled={data.length < limit} // Disable if there are fewer items than limit
+        >
+          Next
+
+        </Button>
+      </HStack>
     </Box>
   );
 };
 
 export default Products;
+
+
+
