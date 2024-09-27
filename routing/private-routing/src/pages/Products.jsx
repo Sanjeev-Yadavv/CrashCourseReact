@@ -27,7 +27,7 @@ const Products = () => {
     <Grid 
     templateColumns='repeat(4, 1fr)'
     gap={4}
-    // templateRows='repeat(5,1fr)'
+    templateRows='repeat(5,1fr)'
     >
       {
         data?.map((el, i)=>(
