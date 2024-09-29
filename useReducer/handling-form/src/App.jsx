@@ -1,6 +1,7 @@
 
 import { useReducer } from 'react'
 import './App.css'
+import { useState } from 'react'
 
 const initState = {
   email: "",
@@ -17,8 +18,11 @@ const reducer = (state, {type,name, payload})=>{
     }
 }
 
+let obj = {}
+
 function App() {
   const [state, dispatch] = useReducer(reducer, initState)
+  const [data, setData] = useState({})
 
  function handleChange(e){
   dispatch({type: 'changeInput', name: e.target.name, payload: e.target.value})
@@ -26,7 +30,14 @@ function App() {
   function handleSubmit(e){
          e.preventDefault()
          dispatch({type: 'empty'})
+
+     setData({
+      ...state, email: state.email, password: state.password
+     })
+
   }
+
+  // const {email, password} = state
  
   return (
     <>
@@ -39,6 +50,16 @@ function App() {
       />
       <input type="submit" />
     </form>
+
+    <div>
+     {
+     data.email?
+     <div><p>email: {data.email}</p>
+    <p> password: {data.password}</p>
+     </div>:
+     <div>no user found</div>
+     }
+    </div>
     </>
   )
 }
